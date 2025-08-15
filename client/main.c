@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 static void print_usage(void) {
     printf("echo-client:\n");
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
 
     int sock;
     struct sockaddr_in server;
-    char msg[1000], server_res[2000];
+    char msg[1024], server_res[1024];
 
     /* 소켓 생성 (ipv4, TCP, protocol auto) */
     sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -33,7 +34,7 @@ int main(int argc, char* argv[]) {
     /* ip, protocol, port 저장 */
     server.sin_addr.s_addr = inet_addr(server_ip);
     server.sin_family = AF_INET;
-    server.sin_port = htons(server_port);
+    server.sin_port = htons(atoi(server_port));
 
     /* server와 연결 */
     if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
@@ -50,6 +51,17 @@ int main(int argc, char* argv[]) {
             printf("send error\n");
             break;
         }
+
+        int bytes_received = recv(sock, server_res, sizeof(server_res), 0);
+        if (bytes_received == 0) {
+            printf("server closed connection\n");
+            break;
+        } else if (bytes_received < 0) {
+            printf("recv error\n");
+            break;
+        }
+
+        server_res[bytes_received] = '\0'; // null terminate the response
         printf("%s\n", server_res);
     }
 
