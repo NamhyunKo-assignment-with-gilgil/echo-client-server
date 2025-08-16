@@ -2,8 +2,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2 -g
 INCLUDES = -Iinclude
 
-CLIENT_SRC = client/main.c
-SERVER_SRC = server/main.c
+CLIENT_SRC = client/main.cpp
+SERVER_SRC = server/main.cpp
 
 CLIENT_OBJ = client/main.o
 SERVER_OBJ = server/main.o
