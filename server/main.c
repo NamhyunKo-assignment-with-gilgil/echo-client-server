@@ -76,11 +76,6 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        if (send(new_socket, buffer, bytes_read, 0) < 0) {
-            printf("send failed\n");
-            break;
-        }
-
         printf("%s\n", buffer);
     }
 
