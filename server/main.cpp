@@ -48,10 +48,10 @@ int main(int argc, char* argv[]) {
             buffer[bytes_read] = '\0';
             printf("%s\n", buffer);
             
-            if (send(client_socket, buffer, bytes_read, 0) < 0) {
-                perror("send failed");
-                break;
-            }
+            // if (send(client_socket, buffer, bytes_read, 0) < 0) {
+            //     perror("send failed");
+            //     break;
+            // }
         }
         close(client_socket);
     };
